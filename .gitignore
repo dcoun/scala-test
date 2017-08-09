@@ -1,0 +1,36 @@
+# Log
+logs
+*.log
+.history
+
+# Runtime data
+*.pid
+*.seed
+.DS_Store
+.cache
+RUNNING_PID
+test-result
+
+# Build folder
+/project/project
+/project/target
+/target
+/out
+/dist
+
+# IDE file
+.idea_modules
+.idea
+.settings
+*.iml
+
+# Dump
+dump.rdb
+
+# Production config file
+conf/production.conf
+conf/server.conf
+conf/ssl.conf
+
+# Big dumy data
+test/resources/test-data/*-big.*
