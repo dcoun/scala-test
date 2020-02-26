@@ -1,15 +1,22 @@
-// intellij sbt plugin
-resolvers += "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/"
+resolvers += "Sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
 
-if (java.lang.System.getProperty("idea.runid", "false") == "7.0.0+49-9bc0cd21") {
-  scala.collection.Seq(
-    addSbtPlugin("org.jetbrains" % "sbt-structure-extractor" % "7.0.0+49-9bc0cd21"),
-    addSbtPlugin("org.jetbrains" % "sbt-idea-shell" % "1.2+2-3eadcace"),
-    addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "1.6.0")
-  )
-} else {
-  scala.collection.Seq.empty
+/**
+ * show dependency graph
+ * sbt -no-colors "dependencyTree" > dependencyFile.log
+ * sbt -no-colors "common / dependencyTree" > dependencyFile.log
+ * sbt -no-colors "evicted" > evictedFile.log
+ */
+addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.9.2")
+
+/** intellij sbt plugin */
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.3.15")
+
+java.lang.System.getProperty("idea.runid", "false") match {
+  case "2017.2" => scala.collection.Seq(
+    addSbtPlugin("org.jetbrains" % "sbt-structure-extractor" % "2017.2"),
+    addSbtPlugin("org.jetbrains" % "sbt-idea-shell" % "2017.2"))
+  case "2018.2" => scala.collection.Seq(
+    addSbtPlugin("org.jetbrains" % "sbt-structure-extractor" % "2018.2"),
+    addSbtPlugin("org.jetbrains" % "sbt-idea-shell" % "2017.2"))
+  case _ => scala.collection.Seq.empty
 }
-
-//resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
-//addSbtPlugin("com.typesafe.sbt" %% "sbt-native-packager" % "0.7.2")

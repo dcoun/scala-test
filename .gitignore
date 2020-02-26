@@ -6,7 +6,6 @@ logs
 # Runtime data
 *.pid
 *.seed
-.DS_Store
 .cache
 RUNNING_PID
 test-result
@@ -15,22 +14,27 @@ test-result
 /project/project
 /project/target
 /target
+*/target
 /out
 /dist
+/build
+/lib_managed
 
 # IDE file
 .idea_modules
 .idea
 .settings
-*.iml
 
 # Dump
 dump.rdb
 
 # Production config file
-conf/production.conf
-conf/server.conf
-conf/ssl.conf
+*/src/main/resources/production.conf
+*/src/test/resources/production.conf
+
+# OS file
+.DS_Store
 
 # Big dumy data
-test/resources/test-data/*-big.*
+test/resources/test-data/*-big*
+spark-warehouse/

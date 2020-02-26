@@ -1,35 +1,45 @@
-name := "ScalaTest"
+version in ThisBuild := "0.1"
 
-version := "1.0"
-
-scalaVersion := "2.11.11"
-
-libraryDependencies ++= {
-  Seq(
-    "org.apache.logging.log4j" % "log4j-api" % "2.8.2",
-    "org.apache.logging.log4j" % "log4j-core" % "2.8.2",
-
-    "net.liftweb" % "lift-json_2.11" % "3.1.0",
-
-    "org.specs2" % "specs2-core_2.11" % "3.9.4" % Test,
-    "org.scalatest" % "scalatest_2.11" % "3.0.3" % Test
+scalaVersion in ThisBuild := Build.scalaVersion
+resolvers in ThisBuild ++= Seq(
+  "CDH5 repository" at "https://repository.cloudera.com/artifactory/cloudera-repos/",
+  "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases",
+  "Typesafe repository" at "https://repo.typesafe.com/typesafe/releases/",
+  "Akka Snapshot Repository" at "https://repo.akka.io/snapshots/",
+  Resolver.sonatypeRepo("snapshots")
   )
-}
+conflictManager in ThisBuild := sbt.ConflictManager.latestRevision
 
-resolvers ++= Seq(
-  "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
-)
+lazy val projectCommonSettings = Seq(
+  maintainer := "dcoun08@gmail.com",
 
-// mainClass := Some("Application")
+  logLevel := Level.Info,
 
-//sourceDirectory in Compile <<= baseDirectory(_ / "src")
-//sourceDirectory in Test <<= baseDirectory(_ / "src/test/scala")
+  envVars ++= Map(
+    "VERSION" -> version.value,
+    "TITLE" -> name.value
+    ),
+  javaOptions ++= Seq(),
+  packageOptions += Package.ManifestAttributes(
+    "Implementation-Title" -> name.value,
+    "Implementation-Version" -> (version in ThisBuild).value
+    ),
 
-//resourceDirectory in Compile <<= baseDirectory(_ / "src/main/resources")
-//resourceDirectory in Test := baseDirectory.value / "src/test/resources"
-//unmanagedClasspath in Test += baseDirectory.value / "resources"
+  envVars in Test ++= Map(
+    "MODE" -> "test"
+    ),
+  fork in Test := true,
+  parallelExecution in Test := false
+  )
 
-Keys.fork in Test := false
-parallelExecution in Test := false
+lazy val utils = (project in file("project-utils"))
+  .settings(projectCommonSettings: _*)
+  .settings(name := "utils")
+  .settings(libraryDependencies ++= Build.commonDependencies)
 
-conflictManager := ConflictManager.latestRevision
+lazy val examples = (project in file("project-examples"))
+  .settings(projectCommonSettings: _*)
+  .dependsOn(utils % "compile->compile;test->test;")
+  .aggregate(utils)
+  .settings(name := "examples")
+  .settings(libraryDependencies ++= Build.commonDependencies)

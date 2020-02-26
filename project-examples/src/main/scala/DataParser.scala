@@ -1,5 +1,4 @@
 import file.{FileReader, FileWriter}
-import path.PathUtil
 
 import scala.collection._
 import net.liftweb.json._
@@ -7,8 +6,8 @@ import net.liftweb.json._
 import scala.util.matching.Regex
 
 class DataParser {
-  val fileReader = new FileReader(PathUtil.getProjectAbsolutePath("src/main/resources/txt_mini"))
-  val fileWriter = new FileWriter(PathUtil.getProjectAbsolutePath("src/main/resources/result.json"))
+  val fileReader = new FileReader(PathUtils.getProjectAbsolutePath("src/main/resources/txt_mini"))
+  val fileWriter = new FileWriter(PathUtils.getProjectAbsolutePath("src/main/resources/result.json"))
 
   //  val pattern = """(\d+_\d+_(.*)) column=(data|host|refine):(.+), timestamp=(\d+), value=(.*)""".r
   val pattern =

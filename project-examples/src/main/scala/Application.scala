@@ -1,15 +1,14 @@
-import util.LogUtil
 
 import scala.io.Source
 
 object Application {
   def start(): Unit = {
     println("test!")
-    LogUtil.info("Start Main!")
-    LogUtil.info("Goodbye World!")
+    LogUtils.info("Start Main!")
+    LogUtils.info("Goodbye World!")
 
     val resources = Source.fromURL(getClass.getResource("resources.properties"))
-    LogUtil.info(resources)
+    LogUtils.info(resources)
   }
 
   def main(args: Array[String]): Unit = {
