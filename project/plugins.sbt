@@ -11,12 +11,9 @@ addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.9.2")
 /** intellij sbt plugin */
 addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.3.15")
 
-java.lang.System.getProperty("idea.runid", "false") match {
-  case "2017.2" => scala.collection.Seq(
-    addSbtPlugin("org.jetbrains" % "sbt-structure-extractor" % "2017.2"),
-    addSbtPlugin("org.jetbrains" % "sbt-idea-shell" % "2017.2"))
-  case "2018.2" => scala.collection.Seq(
-    addSbtPlugin("org.jetbrains" % "sbt-structure-extractor" % "2018.2"),
-    addSbtPlugin("org.jetbrains" % "sbt-idea-shell" % "2017.2"))
-  case _ => scala.collection.Seq.empty
+val ideaVersion = java.lang.System.getProperty("idea.runid", "false")
+ideaVersion match {
+  case null => Seq.empty
+  case _ => Seq(
+    addSbtPlugin("org.jetbrains" % "sbt-idea-plugin" % "3.5.0"))
 }

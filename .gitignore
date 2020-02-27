@@ -20,7 +20,7 @@ test-result
 /build
 /lib_managed
 
-# IDE file
+# IDE utils.file
 .idea_modules
 .idea
 .settings
@@ -28,11 +28,11 @@ test-result
 # Dump
 dump.rdb
 
-# Production config file
+# Production config utils.file
 */src/main/resources/production.conf
 */src/test/resources/production.conf
 
-# OS file
+# OS utils.file
 .DS_Store
 
 # Big dumy data

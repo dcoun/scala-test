@@ -1,4 +1,7 @@
+package testutils
+
 import org.specs2.specification.{BeforeAfterAll, BeforeAfterEach}
+import utils.LogUtils
 
 trait Specification extends org.specs2.mutable.Specification
   with BeforeAfterEach

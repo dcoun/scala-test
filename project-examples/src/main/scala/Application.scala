@@ -1,19 +1,18 @@
 
-import scala.io.Source
+import utils.LogUtils
 
-object Application {
+object Application extends App {
   def start(): Unit = {
     println("test!")
     LogUtils.info("Start Main!")
     LogUtils.info("Goodbye World!")
 
-    val resources = Source.fromURL(getClass.getResource("resources.properties"))
-    LogUtils.info(resources)
+    // import scala.io.Source
+    // val resources = Source.fromURL(getClass.getResource("resources.properties"))
+    // LogUtils.info(resources)
   }
 
-  def main(args: Array[String]): Unit = {
+  override def main(args: Array[String]): Unit = {
     this.start()
-
-    new DataParser().run()
   }
 }

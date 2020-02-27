@@ -1,4 +1,4 @@
-import org.specs2.mutable._
+import testutils.Specification
 
 class ApplicationSpec extends Specification {
   "Application" should {

@@ -6,9 +6,11 @@ resolvers in ThisBuild ++= Seq(
   "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases",
   "Typesafe repository" at "https://repo.typesafe.com/typesafe/releases/",
   "Akka Snapshot Repository" at "https://repo.akka.io/snapshots/",
-  Resolver.sonatypeRepo("snapshots")
+  Resolver.sonatypeRepo("snapshots"),
+  Resolver.sonatypeRepo("releases")
   )
 conflictManager in ThisBuild := sbt.ConflictManager.latestRevision
+scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation")
 
 lazy val projectCommonSettings = Seq(
   maintainer := "dcoun08@gmail.com",
@@ -29,17 +31,26 @@ lazy val projectCommonSettings = Seq(
     "MODE" -> "test"
     ),
   fork in Test := true,
-  parallelExecution in Test := false
+  parallelExecution in Test := false,
+
+  libraryDependencies ++= Build.commonDependencies
   )
 
-lazy val utils = (project in file("project-utils"))
+lazy val root: Project = (project in file("."))
+  .settings(name := "scala_test")
+  .settings(Seq(
+    run := (run in Compile in examples).evaluated
+    ))
+  .aggregate(utils, examples)
+
+lazy val utils: Project = (project in file("project-utils"))
   .settings(projectCommonSettings: _*)
   .settings(name := "utils")
-  .settings(libraryDependencies ++= Build.commonDependencies)
+  .settings(addCompilerPlugin(Build.macroParadise))
 
-lazy val examples = (project in file("project-examples"))
+lazy val examples: Project = (project in file("project-examples"))
   .settings(projectCommonSettings: _*)
   .dependsOn(utils % "compile->compile;test->test;")
   .aggregate(utils)
   .settings(name := "examples")
-  .settings(libraryDependencies ++= Build.commonDependencies)
+  .settings(addCompilerPlugin(Build.macroParadise))

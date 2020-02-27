@@ -9,7 +9,7 @@ object Build {
     ExclusionRule("commons-logging", "commons-logging"),
     ExclusionRule("org.apache.logging.log4j", "log4j-api"),
     ExclusionRule("org.apache.logging.log4j", "log4j-core"),
-    ExclusionRule("org.apache.logging.log4j", "log4j-slf4j-impl"),
+    ExclusionRule("org.apache.logging.log4j", "log4j-slf4j-impl")
     //    ExclusionRule("log4j", "log4j")
     )
 
@@ -29,17 +29,18 @@ object Build {
 
   val playJsonVersion = "2.6.11"
   lazy val playJsonCore: Seq[ModuleID] = Seq(
-    "com.typesafe.play" % "play-json_2.11" % this.playJsonVersion excludeAll (Seq(
-      ExclusionRule("com.fasterxml.jackson.core", "jackson-annotations"),
-      ExclusionRule("com.fasterxml.jackson.core", "jackson-core"),
-      ExclusionRule("com.fasterxml.jackson.core", "jackson-databind"),
-      ExclusionRule("com.fasterxml.jackson.dataformat"),
-      ExclusionRule("com.fasterxml.jackson.datatype")
-      ): _*)
+    "com.typesafe.play" % "play-json_2.11" % this.playJsonVersion
     )
+
+  lazy val macroParadise: ModuleID = "org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full
 
   lazy val commonDependencies: Seq[ModuleID] = {
     val dependencies = Seq(
+      "org.scala-lang" % "scala-library" % scalaVersion,
+      "org.scala-lang" % "scala-reflect" % scalaVersion,
+      "org.scala-lang" % "scala-compiler" % scalaVersion,
+      macroParadise,
+
       "com.typesafe" % "config" % "1.3.3",
 
       "org.apache.httpcomponents" % "httpclient" % "4.5.5",
