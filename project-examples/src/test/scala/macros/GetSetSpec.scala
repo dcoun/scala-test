@@ -5,15 +5,15 @@ import testutils.Specification
 import scala.collection.mutable
 import scala.language.experimental.macros
 
-class GetSetMacroSpec extends Specification {
+class GetSetSpec extends Specification {
 
   class T1 {
     val data: mutable.Map[String, Any] = mutable.Map()
 
-    @GetSetMacro
+    @GetSet
     var v: String = ""
 
-    @GetSetMacro
+    @GetSet
     var vv: String = ""
 
     def getDataValues[T <: Any](key: String): T = {

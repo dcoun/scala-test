@@ -4,29 +4,9 @@ import scala.reflect.macros._
 import scala.language.experimental.macros
 import scala.annotation.{StaticAnnotation, compileTimeOnly}
 
-object GetSetMacroObject {
+object GetSetCompanion {
   def getSetImpl(c: blackbox.Context)(annottees: c.Expr[Any]*): c.Expr[Any] = {
     import c.universe._
-
-    def extractClassNameAndFields(classDecl: ClassDef) = {
-      try {
-        val q"class $className(..$fields) extends ..$bases { ..$body }" = classDecl
-        (className, fields)
-      } catch {
-        case _: MatchError => c.abort(c.enclosingPosition, "Annotation is only supported on case class")
-      }
-    }
-
-    def modifiedDeclaration(classDecl: ClassDef, compDeclOpt: Option[ModuleDef] = None) = {
-      val (className, fields) = extractClassNameAndFields(classDecl)
-      println(className, fields)
-      println(classDecl)
-      //      val format = jsonFormatter(className, fields)
-      //      val compDecl = modifiedCompanion(compDeclOpt, format, className)
-
-      // Return both the class and companion object declarations
-      c.Expr(q"""$classDecl""")
-    }
 
     annottees.map(_.tree) match {
       case ClassDef(mods, name, tparams, Template(parents, self, body)) :: Nil =>
@@ -66,7 +46,7 @@ object GetSetMacroObject {
 }
 
 @compileTimeOnly("scalaplayground.macros not expanded")
-class GetSetMacro extends StaticAnnotation {
-  def macroTransform(annottees: Any*): Any = macro GetSetMacroObject.getSetImpl
+class GetSet extends StaticAnnotation {
+  def macroTransform(annottees: Any*): Any = macro GetSetCompanion.getSetImpl
 }
 
