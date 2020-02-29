@@ -47,7 +47,7 @@ object Build {
       "org.apache.httpcomponents" % "httpcore" % "4.4.9",
 
       "joda-time" % "joda-time" % "2.9.9"
-      )
+      ) ++ playJsonCore
 
     this.logger ++
       this.testCore ++

@@ -9,6 +9,10 @@ object LogUtils {
     Log.info(message.toString)
   }
 
+  def info(messages: Iterable[Any]): Unit = {
+    messages.foreach(info)
+  }
+
   def debug(message: Any): Unit = {
     Log.debug(message.toString)
   }
